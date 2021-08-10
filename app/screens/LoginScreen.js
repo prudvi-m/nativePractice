@@ -1,4 +1,3 @@
-import React from "react";
 import {
   StyleSheet,
   Text,
@@ -9,14 +8,29 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
 import { validatePathConfig } from "@react-navigation/native";
-
-const emailRegex = "abhi@gmail.com";
-const password = "1234";
+import FlashMessage, {
+  showMessage,
+  hideMessage,
+} from "react-native-flash-message";
 
 export default function LoginScreen({ navigation }) {
+  const userEmail = "abhi@gmail.com";
+  const userPassword = "1234";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const validate = () => {
-    navigation.navigate("Success");
+    if (email == userEmail && password == userPassword) {
+      navigation.navigate("Success");
+    } else {
+      showMessage({
+        message: "Please provide valid Credentials",
+        type: "danger",
+      });
+    }
   };
 
   return (
@@ -61,6 +75,8 @@ export default function LoginScreen({ navigation }) {
       >
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
+
+      <FlashMessage position="top" />
     </View>
   );
 }
